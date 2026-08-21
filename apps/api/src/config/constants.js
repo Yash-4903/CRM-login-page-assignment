@@ -1,7 +1,10 @@
 require('dotenv').config();
 
+const PORT = process.env.PORT || 8080;
+const CLIENT_PORT = process.env.CLIENT_PORT || 5173;
+
 module.exports = {
-  port: parseInt(process.env.PORT, 10) || 5000,
+  port: parseInt(PORT, 10) || 8080,
   db: {
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DB_PORT, 10) || 3306,
@@ -16,5 +19,5 @@ module.exports = {
   bcrypt: {
     saltRounds: parseInt(process.env.BCRYPT_SALT_ROUNDS, 10) || 12,
   },
-  clientUrl: process.env.CLIENT_URL || 'http://localhost:5173',
+  clientUrl: process.env.CLIENT_URL || `http://localhost:${CLIENT_PORT}`,
 };
