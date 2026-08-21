@@ -12,7 +12,7 @@ app.use(helmet());
 
 const allowedOrigins = [
   clientUrl,
-  'https://laudable-miracle-production-d28a.up.railway.app',
+  'https://crm-login-page-assignment-js7f8yg5s-yash-4903s-projects.vercel.app',
   'http://localhost:5173',
 ].filter(Boolean);
 
