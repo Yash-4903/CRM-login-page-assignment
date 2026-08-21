@@ -9,12 +9,27 @@ const errorHandler = require('./middleware/errorHandler');
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: clientUrl, credentials: true }));
+const allowedOrigins = [
+  clientUrl,
+  'https://laudable-miracle-production-d28a.up.railway.app',
+  'http://localhost:5173',
+].filter(Boolean);
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
 app.use(express.json({ limit: '10kb' }));
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 10,
   standardHeaders: true,
   legacyHeaders: false,
   message: {

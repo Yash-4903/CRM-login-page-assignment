@@ -6,11 +6,14 @@ export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const setToken = (token) => localStorage.setItem(TOKEN_KEY, token);
 export const clearToken = () => localStorage.removeItem(TOKEN_KEY);
 
-const PORT = import.meta.env.VITE_API_PORT || 8080;
+const API_URL = import.meta.env.VITE_API_URL;
+
+if (!API_URL) {
+  console.error('FATAL: VITE_API_URL is not set. API calls will fail.');
+}
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || `http://localhost:${PORT}/api`,
-  headers: { 'Content-Type': 'application/json' },
+  baseURL: API_URL || 'http://localhost:8080/api',
 });
 
 let onUnauthorized = null;
