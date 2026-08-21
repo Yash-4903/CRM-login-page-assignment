@@ -9,6 +9,7 @@ const errorHandler = require('./middleware/errorHandler');
 const app = express();
 
 app.use(helmet());
+
 const allowedOrigins = [
   clientUrl,
   'https://laudable-miracle-production-d28a.up.railway.app',
@@ -25,6 +26,7 @@ app.use(cors({
   },
   credentials: true,
 }));
+
 app.use(express.json({ limit: '10kb' }));
 
 const authLimiter = rateLimit({
@@ -37,6 +39,11 @@ const authLimiter = rateLimit({
     message: 'Too many requests, please try again later',
     errors: {},
   },
+});
+
+// HEALTH CHECK — Railway needs this
+app.get('/health', (req, res) => {
+  res.status(200).json({ success: true, message: 'OK' });
 });
 
 app.use('/api/auth', authLimiter, authRoutes);
